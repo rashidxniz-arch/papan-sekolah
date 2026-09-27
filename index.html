@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Papan Sekolah Rumah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0A0E14; --panel:rgba(16,23,34,.92); --bubble:#1A2432; --line:#253245;
+  --ink:#E9EDF2; --muted:#8C9AAE; --blue:#4A74D9; --red:#D9483E; --gold:#E8B83E; --white:#E9EDF2;
+  --hud:"Chakra Petch", "Segoe UI", Arial, sans-serif;
+  --font:"Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Color Emoji", sans-serif;
+  --fs-xs:clamp(11px,.72vw,16px); --fs-s:clamp(12px,.82vw,18px); --fs-m:clamp(13px,.92vw,21px); --fs-l:clamp(16px,1.15vw,26px);
+}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--fs-m)}
+*{box-sizing:border-box}
+.app{display:grid;grid-template-columns:23% 1fr;height:100%}
+
+/* mecha panel */
+.hero{position:relative;overflow:hidden;background:#05070a}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;filter:saturate(1.08) contrast(1.06)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,9,14,.96) 0%,rgba(6,9,14,.55) 34%,rgba(6,9,14,0) 58%),linear-gradient(to left,rgba(10,14,20,.9),rgba(10,14,20,0) 18%)}
+.corner{position:absolute;width:48px;height:48px;border-color:var(--gold);border-style:solid;z-index:2}
+.c1{left:18px;top:18px;border-width:2px 0 0 2px}.c2{right:18px;bottom:18px;border-width:0 2px 2px 0}
+.hero-txt{position:absolute;left:clamp(16px,1.6vw,34px);right:clamp(16px,1.6vw,34px);bottom:clamp(18px,2vw,40px);z-index:2}
+.brand{font-family:var(--hud);font-weight:700;font-size:clamp(22px,2vw,44px);letter-spacing:.06em;text-transform:uppercase;line-height:1}
+.brand span{color:var(--red)}
+.stripes{display:flex;gap:6px;margin:12px 0 14px}
+.stripes i{height:5px;flex:1}
+.stripes i:nth-child(1){background:var(--blue)}.stripes i:nth-child(2){background:var(--white)}.stripes i:nth-child(3){background:var(--gold)}.stripes i:nth-child(4){background:var(--red)}
+.time{font-family:var(--hud);font-weight:700;font-size:clamp(40px,4.6vw,100px);line-height:.95;font-variant-numeric:tabular-nums}
+.date{font-family:var(--hud);font-size:var(--fs-l);color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+.upd{font-size:var(--fs-xs);color:var(--muted);margin-top:14px;line-height:1.5}
+
+/* columns */
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,.7vw,16px);padding:clamp(8px,.8vw,18px);min-height:0;
+  background:radial-gradient(ellipse at 80% 0%,rgba(74,116,217,.10),transparent 60%),var(--bg)}
+.col{display:flex;flex-direction:column;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.col-head{display:flex;align-items:center;gap:12px;padding:clamp(10px,.8vw,16px) clamp(12px,1vw,20px);background:#121B29;border-top:4px solid var(--acc)}
+.av{flex:none;width:clamp(38px,2.6vw,56px);height:clamp(38px,2.6vw,56px);border-radius:50%;display:grid;place-items:center;font-family:var(--hud);font-weight:700;font-size:var(--fs-s);color:#0A0E14;background:var(--acc)}
+.kid{font-family:var(--hud);font-weight:700;font-size:var(--fs-l);letter-spacing:.04em;text-transform:uppercase;line-height:1.05}
+.grp{font-size:var(--fs-xs);color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.pins{display:flex;flex-direction:column;gap:6px;padding:clamp(8px,.6vw,12px) clamp(10px,.8vw,16px);border-bottom:1px solid var(--line);background:#0F1622}
+.pins h4{margin:0;font-family:var(--hud);font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.pin{display:flex;gap:10px;align-items:baseline;font-size:var(--fs-s);line-height:1.3}
+.pin .t{flex:1;min-width:0}
+.pin .cd{flex:none;font-family:var(--hud);font-weight:700;font-size:var(--fs-xs);padding:2px 8px;border-radius:4px;background:rgba(232,184,62,.16);color:var(--gold);white-space:nowrap}
+.pin .cd.u{background:rgba(217,72,62,.2);color:#FF7B70}
+.nopin{font-size:var(--fs-s);color:var(--muted)}
+
+.wall{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:clamp(5px,.4vw,9px);padding:clamp(8px,.7vw,14px) clamp(10px,.8vw,16px);
+  background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1.2px);background-size:22px 22px}
+.wall > :first-child{margin-top:auto}
+.day{align-self:center;background:#162131;color:var(--muted);font-size:var(--fs-xs);padding:3px 10px;border-radius:6px;margin-block:4px;text-transform:uppercase;letter-spacing:.04em}
+.b{align-self:flex-start;max-width:96%;background:var(--bubble);border-radius:0 9px 9px 9px;padding:clamp(5px,.4vw,9px) clamp(8px,.6vw,12px) clamp(4px,.3vw,7px);font-size:var(--fs-m);line-height:1.36}
+.b.cont{border-radius:9px}
+.b.star{box-shadow:inset 0 0 0 1px rgba(232,184,62,.45)}
+.b .who{color:var(--acc);font-size:var(--fs-xs);font-weight:600;margin-bottom:2px}
+.b .body{white-space:pre-wrap;overflow-wrap:anywhere}
+.b .me{background:rgba(232,184,62,.18);color:var(--gold);border-radius:3px;padding:0 3px;font-weight:700}
+.b .tm{float:right;margin:5px 0 -2px 12px;font-size:var(--fs-xs);color:var(--muted)}
+.b .note{display:block;font-size:var(--fs-xs);color:var(--muted);font-style:italic;margin-top:3px}
+.empty{margin:auto;color:var(--muted);text-align:center}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;height:auto}
+  .hero{height:300px}.hero img{object-position:50% 20%}
+  .cols{grid-template-columns:1fr;padding-inline:16px}
+  .col{max-height:80vh}
+}
+
+/* PIN lock */
+.lock{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,9,14,.94)}
+.lock[hidden]{display:none}
+.lock-box{width:min(92vw,520px);padding:clamp(20px,2vw,40px);background:#121B29;border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:12px;text-align:center}
+.lock-box h1{margin:0 0 6px;font-family:var(--hud);font-size:clamp(24px,2vw,40px);letter-spacing:.06em;text-transform:uppercase}
+.lock-box p{margin:0 0 18px;color:var(--muted);font-size:var(--fs-m)}
+#pin{width:100%;font-family:var(--hud);font-size:clamp(28px,2.4vw,48px);letter-spacing:.5em;text-align:center;padding:10px;background:#0A0E14;color:var(--ink);border:2px solid var(--line);border-radius:8px}
+#pin:focus{outline:none;border-color:var(--gold)}
+.pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.pad button{font-family:var(--hud);font-size:clamp(22px,1.8vw,36px);padding:clamp(10px,1vw,18px) 0;background:#1A2432;color:var(--ink);border:2px solid var(--line);border-radius:8px;cursor:pointer}
+.pad button:focus,.pad button:hover{outline:none;border-color:var(--gold);background:#223047}
+.pad .ok{background:var(--blue);border-color:var(--blue)}
+.err{min-height:1.4em;margin-top:12px;color:#FF7B70;font-size:var(--fs-m)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="hero">
+    <img src="mecha.jpg" alt="">
+    <span class="corner c1"></span><span class="corner c2"></span>
+    <div class="hero-txt">
+      <div class="brand">Papan <span>Sekolah</span></div>
+      <div class="stripes"><i></i><i></i><i></i><i></i></div>
+      <div class="time" id="time">--:--</div>
+      <div class="date" id="date"></div>
+      <div class="upd" id="upd"></div>
+    </div>
+  </aside>
+  <main class="cols" id="cols"></main>
+</div>
+
+
+<div class="lock" id="lock" hidden>
+  <form class="lock-box" id="lockform" autocomplete="off">
+    <h1>Papan <span style="color:var(--red)">Sekolah</span></h1>
+    <p>Masukkan PIN</p>
+    <label for="pin" style="position:absolute;left:-9999px">PIN</label>
+    <input id="pin" type="password" inputmode="numeric" maxlength="8">
+    <div class="pad" id="pad"></div>
+    <div class="err" id="err"></div>
+  </form>
+</div>
+<script>
+
+var T="", CHATS=[];
+var KEY="papan-pin";
+function b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
+function getPin(){try{return localStorage.getItem(KEY)||"";}catch(e){return "";}}
+function setPin(p){try{localStorage.setItem(KEY,p);}catch(e){}}
+function decrypt(d,pin){
+  var enc=new TextEncoder();
+  return crypto.subtle.importKey("raw",enc.encode(pin),"PBKDF2",false,["deriveKey"]).then(function(base){
+    return crypto.subtle.deriveKey({name:"PBKDF2",salt:b64(d.salt),iterations:d.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+  }).then(function(k){return crypto.subtle.decrypt({name:"AES-GCM",iv:b64(d.iv)},k,b64(d.ct));})
+    .then(function(buf){return JSON.parse(new TextDecoder().decode(buf));});
+}
+var ENC=null;
+function fetchData(){return fetch("data/board.enc.json?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();});}
+function apply(obj){T=obj.T||"";CHATS=obj.chats||[];lastD=-1;loop();}
+function unlock(pin,fromUser){
+  return decrypt(ENC,pin).then(function(obj){setPin(pin);document.getElementById("lock").hidden=true;apply(obj);})
+    .catch(function(){ if(fromUser){document.getElementById("err").textContent="PIN salah. Cuba lagi.";} showLock(); });
+}
+function showLock(){var l=document.getElementById("lock");l.hidden=false;var p=document.getElementById("pin");p.value="";setTimeout(function(){p.focus();},50);}
+function refresh(){
+  fetchData().then(function(d){
+    var changed=!ENC||ENC.ct!==d.ct; ENC=d;
+    var pin=getPin();
+    if(!pin){showLock();return;}
+    if(changed) unlock(pin,false);
+  }).catch(function(e){ if(!ENC){document.getElementById("upd").textContent="Tidak dapat memuat data ("+e.message+"). Cuba semula sebentar lagi.";} });
+}
+(function buildPad(){
+  var pad=document.getElementById("pad"),pin=document.getElementById("pin");
+  ["1","2","3","4","5","6","7","8","9","⌫","0","OK"].forEach(function(k){
+    var b=document.createElement("button");b.type=k==="OK"?"submit":"button";b.textContent=k;if(k==="OK")b.className="ok";
+    if(k==="⌫")b.setAttribute("aria-label","Padam");
+    if(k!=="OK")b.addEventListener("click",function(){document.getElementById("err").textContent="";pin.value=k==="⌫"?pin.value.slice(0,-1):(pin.value+k).slice(0,8);});
+    pad.appendChild(b);
+  });
+  document.getElementById("lockform").addEventListener("submit",function(e){e.preventDefault();var v=pin.value.trim();if(!v)return;if(!ENC){document.getElementById("err").textContent="Data belum dimuat.";return;}unlock(v,true);});
+})();
+var ACC=["#4A74D9","#D9483E","#E8B83E"];
+var MS=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+var DAYS=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
+function pd(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+function today(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate());}
+function diff(a,b){return Math.round((b-a)/86400000);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function fmt(s,kid){
+  var h=esc(s).replace(/\*([^*\n]+)\*/g,"<b>$1</b>").replace(/(^|\s)_([^_\n]+)_/g,"$1<i>$2</i>");
+  if(kid&&kid.length){h=h.replace(new RegExp("("+kid.join("|")+")","gi"),'<span class="me">$1</span>');}
+  return h;
+}
+function dayLabel(s){
+  var n=diff(pd(s),today());
+  if(n===0) return "Hari ini"; if(n===1) return "Semalam";
+  var d=pd(s); return d.getDate()+" "+MS[d.getMonth()]+" "+d.getFullYear();
+}
+function activePins(c){
+  var t=today();
+  return (c.pins||[]).filter(function(p){return t<=pd(p.end);}).map(function(p){
+    var s=pd(p.start), e=pd(p.end), cd, u=false;
+    if(t<s){var n=diff(t,s);cd=n===1?"Buka esok":"Buka "+n+" hari";u=n<=1;}
+    else{var l=diff(t,e);cd=l===0?"Hari ini":l===1?"Esok":l+" hari";u=l<=3;}
+    return {text:p.text,cd:cd,u:u,k:(t<s?s:e)};
+  }).sort(function(a,b){return a.k-b.k;});
+}
+function column(c,i){
+  var acc=ACC[i%ACC.length];
+  var pins=activePins(c);
+  var ph=pins.length?pins.map(function(p){return '<div class="pin"><span class="t">'+esc(p.text)+'</span><span class="cd'+(p.u?" u":"")+'">'+esc(p.cd)+'</span></div>';}).join(""):'<div class="nopin">Tiada tindakan buat masa ini.</div>';
+  var w="", lastDay="", lastB=false;
+  if(!c.msgs||!c.msgs.length){w='<div class="empty">Tiada mesej lagi.</div>';}
+  else c.msgs.forEach(function(m){
+    if(m.d!==lastDay){w+='<div class="day">'+esc(dayLabel(m.d))+'</div>';lastDay=m.d;lastB=false;}
+    w+='<div class="b'+(lastB?" cont":"")+(m.star?" star":"")+'">'+(lastB?"":'<div class="who">~ '+esc(c.teacher||T)+'</div>')+
+      '<div class="body">'+fmt(m.x,c.kidNames||[c.kid])+'<span class="tm">'+esc(m.t)+'</span></div>'+
+      (m.note?'<span class="note">'+esc(m.note)+'</span>':'')+'</div>';
+    lastB=true;
+  });
+  return '<section class="col" style="--acc:'+acc+'" aria-label="'+esc(c.name)+'">'+
+    '<header class="col-head"><div class="av">'+esc(c.initials||"")+'</div><div style="min-width:0"><div class="kid">'+esc(c.kid||c.name)+'</div><div class="grp">'+esc(c.name)+' · '+esc((c.sub||"").split(" · ").slice(1).join(" · "))+'</div></div></header>'+
+    '<div class="pins"><h4>Tindakan waris</h4>'+ph+'</div>'+
+    '<div class="wall">'+w+'</div></section>';
+}
+function render(){
+  document.getElementById("cols").innerHTML=CHATS.map(column).join("");
+  var u=CHATS.filter(function(c){return c.updated;}).map(function(c){return (c.kid||c.name)+": "+c.updated;});
+  document.getElementById("upd").innerHTML="Dikemas kini dari WhatsApp<br>"+u.map(esc).join("<br>");
+  stick();
+}
+function stick(){function go(){Array.prototype.forEach.call(document.querySelectorAll(".wall"),function(w){w.scrollTop=w.scrollHeight;});}
+  go();requestAnimationFrame(go);setTimeout(go,400);setTimeout(go,1500);}
+window.addEventListener("load",stick);window.addEventListener("resize",stick);
+function tick(){
+  var n=new Date(),h=n.getHours(),m=n.getMinutes();
+  document.getElementById("time").textContent=(h<10?"0":"")+h+":"+(m<10?"0":"")+m;
+  document.getElementById("date").textContent=DAYS[n.getDay()]+", "+n.getDate()+" "+MS[n.getMonth()]+" "+n.getFullYear();
+}
+var lastD=-1;
+function loop(){tick();if(!CHATS.length)return;var d=new Date().getDate();if(d!==lastD){lastD=d;render();}}
+tick();setInterval(loop,20000);
+refresh();setInterval(refresh,30*60*1000);
+</script>
+
+</body>
+</html>

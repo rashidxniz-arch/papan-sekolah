@@ -1,0 +1,3 @@
+*.plain.json
+chats.json
+node_modules/
